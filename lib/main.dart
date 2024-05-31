@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:my_library/second_screen.dart';
+import 'package:my_library/agile_screen.dart';
+import 'package:my_library/document.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MyHomePage(title: 'My Library :)'),
-        '/second': (context) => const SecondScreen(),
+        '/agile': (context) => const AgileScreen(),
       },
     );
   }
@@ -40,6 +39,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Document> items = [
+    Document("Agile Methodology", "Mar 23, 2024 · 3 min read", "agile"),
+    Document("Dev & Sec & Ops", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Jenkins", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Docker", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Kubernetes", "Mar 23, 2024 · 2 min read", "agile"),
+    Document(
+        "Data Structures & Algorithms", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Java", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Python", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Dart", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Flutter", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Software Architecture", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Microservices", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Monolith", "Mar 23, 2024 · 2 min read", "agile"),
+    Document(
+        "Service Oriented Architecture", "Mar 23, 2024 · 2 min read", "agile"),
+    Document("Math", "Mar 23, 2024 · 2 min read", "agile")
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,77 +77,60 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: Center(
-        child: ListView(
-          children: [
-            buildExpanded(context),
-            buildContent("Agile Methodology"),
-            buildContent("Hello World 2"),
-            buildContent("Hello World 3"),
-            buildContent("Hello World 4"),
-            buildContent("Hello World 5"),
-            buildContent("Hello World 6"),
-            buildContent("Hello World 7"),
-            buildContent("Hello World 8"),
-            buildContent("Hello World 9"),
-          ],
-        ),
+        child: _buildListView(),
       ),
     );
   }
 
-  Expanded buildExpanded(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: (MediaQuery.of(context).size.height / 2),
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          border: const Border(
-            bottom: BorderSide(width: 1, color: Colors.black12),
-          ),
-        ),
-        child: const Text("Content"),
-      ),
+  ListView _buildListView() {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Column(
+            children: [
+              _buildExpanded(context),
+              _buildContent(index, context),
+            ],
+          );
+        }
+        return _buildContent(index, context);
+      },
     );
   }
 
-  Container buildContent(String message) {
+  Container _buildExpanded(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      width: double.infinity,
+      height: (MediaQuery.of(context).size.height / 2),
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        border: const Border(
+          bottom: BorderSide(width: 1, color: Colors.black12),
+        ),
+      ),
+      child: Image.asset(
+        "assets/images/sloth.png",
+      ),
+    );
+  }
+
+  Container _buildContent(int index, BuildContext context) {
+    return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1, color: Colors.black12),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 5),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-              child: Text(
-                message,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const Text(
-            "Mar 23, 2024 · 2 min read",
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w100,
-            ),
-          ),
-        ],
+      child: ListTile(
+        title: Text(items[index].title),
+        subtitle: Text(items[index].subTitle),
+        onTap: () {
+          Navigator.pushNamed(context, '/${items[index].link}');
+        },
       ),
     );
   }
