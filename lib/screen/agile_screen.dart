@@ -5,9 +5,12 @@ class AgileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    String title = arguments['title'] ?? 'Title';
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Second Screen'),
+        title: Text(title),
       ),
       body: Center(
         child: ListView(
@@ -15,9 +18,9 @@ class AgileScreen extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(bottom: 10),
-              child: const Text(
-                "Agile Methodology",
-                style: TextStyle(
+              child: Text(
+                title,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
