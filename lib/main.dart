@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_library/screen/agile_screen.dart';
 import 'package:my_library/screen/jenkins_screen.dart';
 import 'package:my_library/screen/main_screen.dart';
+import 'package:my_library/domain/services/screen/services_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/main': (context) => MainScreen(title: 'My Library :)'),
         '/agile': (context) => const AgileScreen(),
         '/jenkins': (context) => const JenkinsScreen(),
+        '/services': (context) => const ServiceScreen(),
       },
     );
   }
@@ -151,6 +153,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             'Privacy',
                             style: GoogleFonts.kanit(color: Colors.white),
                           ),
+                          const SizedBox(width: 20),
+                          GestureDetector(
+                            child: Text(
+                              'Services',
+                              style: GoogleFonts.kanit(color: Colors.white),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/services');
+                            },
+                          )
                         ],
                       ),
                     ),
